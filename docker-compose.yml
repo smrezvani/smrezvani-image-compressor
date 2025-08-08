@@ -1,0 +1,15 @@
+---
+
+services:
+  image-compressor:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - ENABLE_AUTH=true
+      - API_KEY=${API_KEY:-your-secure-api-key-here}
+    restart: unless-stopped
+    mem_limit: 1g
+    cpus: '2'

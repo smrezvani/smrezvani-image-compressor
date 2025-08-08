@@ -1,0 +1,261 @@
+{
+  "info": {
+    "name": "Image Compressor API",
+    "description": "Collection for testing Image Compressor API endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/health",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["health"]
+        },
+        "description": "Check if the API server is healthy"
+      }
+    },
+    {
+      "name": "Get Image Info",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_IMAGE_STRING_HERE\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/info",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["info"]
+        },
+        "description": "Get image dimensions (width and height)"
+      }
+    },
+    {
+      "name": "Compress Image - JPEG",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_IMAGE_STRING_HERE\",\n  \"format\": \"mozjpeg\",\n  \"options\": {\n    \"quality\": 80,\n    \"progressive\": true\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/compress",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["compress"]
+        },
+        "description": "Compress image to JPEG format with quality 80"
+      }
+    },
+    {
+      "name": "Compress Image - WebP",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_IMAGE_STRING_HERE\",\n  \"format\": \"webp\",\n  \"options\": {\n    \"quality\": 85,\n    \"lossless\": false\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/compress",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["compress"]
+        },
+        "description": "Compress image to WebP format"
+      }
+    },
+    {
+      "name": "Compress Image - AVIF",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_IMAGE_STRING_HERE\",\n  \"format\": \"avif\",\n  \"options\": {\n    \"quality\": 60,\n    \"effort\": 4\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/compress",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["compress"]
+        },
+        "description": "Compress image to AVIF format"
+      }
+    },
+    {
+      "name": "Compress Image - PNG",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_IMAGE_STRING_HERE\",\n  \"format\": \"oxipng\",\n  \"options\": {\n    \"level\": 3,\n    \"interlace\": false\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/compress",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["compress"]
+        },
+        "description": "Optimize PNG image"
+      }
+    },
+    {
+      "name": "Compress with Resize",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"image\": \"YOUR_BASE64_IMAGE_STRING_HERE\",\n  \"format\": \"mozjpeg\",\n  \"options\": {\n    \"quality\": 85\n  },\n  \"resize\": {\n    \"enabled\": true,\n    \"width\": 800,\n    \"height\": 600,\n    \"method\": \"lanczos3\",\n    \"fitMethod\": \"contain\"\n  }\n}"
+        },
+        "url": {
+          "raw": "http://localhost:3000/compress",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["compress"]
+        },
+        "description": "Compress and resize image to 800x600"
+      }
+    },
+    {
+      "name": "Compress File Upload",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "x-api-key",
+            "value": "your-secure-api-key-here",
+            "description": "Required if ENABLE_AUTH=true",
+            "disabled": true
+          }
+        ],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            {
+              "key": "image",
+              "type": "file",
+              "src": "",
+              "description": "Select an image file to upload"
+            },
+            {
+              "key": "format",
+              "value": "mozjpeg",
+              "type": "text",
+              "description": "Output format: mozjpeg, webp, avif, oxipng"
+            },
+            {
+              "key": "options",
+              "value": "{\"quality\": 85}",
+              "type": "text",
+              "description": "JSON string with compression options"
+            }
+          ]
+        },
+        "url": {
+          "raw": "http://localhost:3000/compress/file",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "3000",
+          "path": ["compress", "file"]
+        },
+        "description": "Upload and compress an image file directly"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "apiKey",
+      "value": "your-secure-api-key-here",
+      "type": "string"
+    }
+  ]
+}
