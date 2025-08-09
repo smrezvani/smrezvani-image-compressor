@@ -44,26 +44,26 @@ const errorFileRotateTransport = new DailyRotateFile({
   format: logFormat
 });
 
-const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
-  format: logFormat,
-  transports: [
-    fileRotateTransport,
-    errorFileRotateTransport,
-    new winston.transports.File({
-      filename: 'server.log',
-      maxsize: 10485760,
-      maxFiles: 5,
-      format: logFormat
-    })
-  ]
-});
+const transports: winston.transport[] = [];
 
-if (process.env.NODE_ENV !== 'production') {
-  logger.add(new winston.transports.Console({
-    format: winston.format.combine(
+// Always add console transport for Docker compatibility
+const consoleFormat = process.env.NODE_ENV === 'production' 
+  ? winston.format.combine(
+      winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+      winston.format.printf(({ timestamp, level, message, ...meta }) => {
+        let logMessage = `${timestamp} [${level.toUpperCase()}]: ${message}`;
+        if (meta && Object.keys(meta).length > 0 && !meta.stack) {
+          logMessage += ` ${JSON.stringify(meta)}`;
+        }
+        if (meta.stack) {
+          logMessage += `\n${meta.stack}`;
+        }
+        return logMessage;
+      })
+    )
+  : winston.format.combine(
       winston.format.colorize(),
-      winston.format.simple(),
+      winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       winston.format.printf(({ timestamp, level, message, ...meta }) => {
         let logMessage = `${timestamp} ${level}: ${message}`;
         if (meta && Object.keys(meta).length > 0 && !meta.stack) {
@@ -74,9 +74,29 @@ if (process.env.NODE_ENV !== 'production') {
         }
         return logMessage;
       })
-    )
-  }));
+    );
+
+transports.push(new winston.transports.Console({ format: consoleFormat }));
+
+// Add file transports only if not in Docker
+if (!process.env.DOCKER_ENV) {
+  transports.push(
+    fileRotateTransport,
+    errorFileRotateTransport,
+    new winston.transports.File({
+      filename: 'server.log',
+      maxsize: 10485760,
+      maxFiles: 5,
+      format: logFormat
+    })
+  );
 }
+
+const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: logFormat,
+  transports: transports
+});
 
 export default logger;
 

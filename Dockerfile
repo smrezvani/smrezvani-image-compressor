@@ -43,6 +43,9 @@ RUN npm ci --only=production
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
 
+# Set Docker environment
+ENV DOCKER_ENV=true
+
 # Expose port
 EXPOSE 3000
 
